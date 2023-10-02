@@ -2,10 +2,11 @@
 int appWidth, appHeight;
 float backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight;
 PImage picBackground;
+Boolean nightmode=false; //Note: clock can turn on automatically
 //
 void setup() {
-  fullScreen(); //displayWidth, displayHeight
-  //size(500, 100);
+  //fullScreen(); //displayWidth, displayHeight
+  size(500, 500);
   appWidth = width;
   appHeight = height;
   //
@@ -19,13 +20,37 @@ void setup() {
   //DIVs
   rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
   //
+  tint(255, 128); //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
+  tint(64, 64, 40); //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
+  image (picBackground, backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
 } //End setup
 //
 void draw() {
-  image (picBackground,backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
+  //background(255); //built in bug, 1 pixel
+  rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
+  //
+  //if ( [BRIGHTNESS, see keyPressed ] ) tint(255, 128); //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
+  //if ( nightmode==true ) tint(64, 64, 40); //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
+  if (nightmode==true) {tint(64, 64, 40);
+  println(nightmode);
+  } else {
+    noTint(); //See processing DOC
+    println(nightmode);
+  }
+  image (picBackground, backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
 } //End Draw
 //
 void keyPressed () {
+  //Brightness
+  //
+  if (key == 'n' || key=='N' ) {
+    if (nightmode==true) {  //Nightmode, basic control is Boolean
+      nightmode = false;
+    } else {
+      nightmode = true;
+    }
+  }
+  //
 } //End keyPressed
 //
 void mousePressed() {
