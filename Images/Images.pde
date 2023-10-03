@@ -1,8 +1,13 @@
+/* Program Notes
+ -
+ */
 //Global Variables
 int appWidth, appHeight;
 float backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight;
 PImage picBackground;
 Boolean nightmode=false; //Note: clock can turn on automatically
+Boolean BrightnessControl=false; // ARROWS
+int BrightnessNumber = 255; //Range 1 - 255
 //
 void setup() {
   //fullScreen(); //displayWidth, displayHeight
@@ -29,10 +34,11 @@ void draw() {
   //background(255); //built in bug, 1 pixel
   rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
   //
-  //if ( [BRIGHTNESS, see keyPressed ] ) tint(255, 128); //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
+  if (BrightnessControl==true ) tint(255, BrightnessNumber); //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
   //if ( nightmode==true ) tint(64, 64, 40); //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
-  if (nightmode==true) {tint(64, 64, 40);
-  println(nightmode);
+  if (nightmode==true) {
+    tint(64, 64, 40);
+    println(nightmode);
   } else {
     noTint(); //See processing DOC
     println(nightmode);
@@ -41,14 +47,19 @@ void draw() {
 } //End Draw
 //
 void keyPressed () {
-  //Brightness
-  //
   if (key == 'n' || key=='N' ) {
     if (nightmode==true) {  //Nightmode, basic control is Boolean
       nightmode = false;
     } else {
       nightmode = true;
     }
+  }
+  //Brightness: ARROWS activate BrightnessControl, Never off
+  //Note: nightmode does turn off
+  if (key == '[Special keybind]' || key == '[Special keybind]') { //Brightness keybind
+  BrightnessControl = true;
+  // start here with brightness toggles 
+  
   }
   //
 } //End keyPressed
