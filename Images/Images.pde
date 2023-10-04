@@ -1,5 +1,5 @@
 /* Program Notes
- -
+ - extra marks for variables
  */
 //Global Variables
 int appWidth, appHeight;
@@ -7,7 +7,10 @@ float backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageH
 PImage picBackground;
 Boolean nightmode=false; //Note: clock can turn on automatically
 Boolean BrightnessControl=false; // ARROWS
-int BrightnessNumber = 255; //Range 1 - 255
+int BrightnessNumber = 128; //Range 1 - 255
+//int RedNumber = ;
+//int GreenNumber = ;
+//int BlueNumber = ;
 //
 void setup() {
   //fullScreen(); //displayWidth, displayHeight
@@ -23,25 +26,36 @@ void setup() {
   picBackground = loadImage("../ImagesUsed/halloween1.png");
   //
   //DIVs
-  rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
+  //rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
   //
-  tint(255, 128); //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
-  tint(64, 64, 40); //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
-  image (picBackground, backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
 } //End setup
 //
 void draw() {
   //background(255); //built in bug, 1 pixel
   rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
   //
-  if (BrightnessControl==true ) tint(255, BrightnessNumber); //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
+  if (BrightnessControl==true ) tint(255, BrightnessNumber);
+  { //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
+    if ( BrightnessNumber<1  ) {
+      BrightnessNumber=1;
+    } else if (BrightnessNumber>255) {
+      BrightnessNumber=255;
+    } else {
+      //Empty Else
+    }
+    tint (255, BrightnessNumber);
+    println(BrightnessNumber);
+  }
+
+
+
   //if ( nightmode==true ) tint(64, 64, 40); //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
   if (nightmode==true) {
-    tint(64, 64, 40);
-    println(nightmode);
+    tint(64, 64, 40); // more marks if numbers are varibles // blue at should have a limit of 40
+    //println(nightmode);
   } else {
     noTint(); //See processing DOC
-    println(nightmode);
+    //println(nightmode);
   }
   image (picBackground, backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
 } //End Draw
@@ -56,12 +70,14 @@ void keyPressed () {
   }
   //Brightness: ARROWS activate BrightnessControl, Never off
   //Note: nightmode does turn off
-  if (key == '[Special keybind]' || key == '[Special keybind]') { //Brightness keybind
-  BrightnessControl = true;
-  // start here with brightness toggles 
-  
+  if (key == CODED && keyCode == UP || keyCode == DOWN ) { //Brightness keybind
+    BrightnessControl = true;
+    if (key == CODED && keyCode == UP) BrightnessNumber++;
+    if (key == CODED && keyCode == DOWN) BrightnessNumber-- ;
+    // start here with brightness toggles
   }
   //
+  println(BrightnessNumber);
 } //End keyPressed
 //
 void mousePressed() {
