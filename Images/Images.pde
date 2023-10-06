@@ -32,7 +32,12 @@ void setup() {
   backgroundImageY = appHeight*0;
   backgroundImageWidth = appWidth-1;
   backgroundImageHeight = appHeight-1;
-  picBackground = loadImage("../ImagesUsed/halloween1.png");
+  //concatenation of pathways
+  String up = "..";
+  String open = "/";
+  String imagesPath = up + open;
+  String imagesUsed = "imagesUsed";
+  picBackground = loadImage(imagesPath + imagesUsed + "/halloween1.png");
   //
   //DIVs
   //rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
