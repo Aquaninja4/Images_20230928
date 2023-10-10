@@ -1,10 +1,10 @@
 /* Program Notes
- - extra marks for colour variables
+ - extra marks for colour variables, make blue adjustable just like brightness 0 - 40 , (65% for numbers, more for variables)  
  */
 //Global Variables
 int appWidth, appHeight;
 float backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight;
-PImage picBackground;
+PImage picBackground, bikeForeground, pumpkinGhostPortrait;
 Boolean nightmode=false; //Note: clock automatically will turn on
 Boolean BrightnessControl=false; // ARROWS
 int BrightnessNumber = 255; //Range 1 - 255
@@ -36,11 +36,15 @@ void setup() {
   String up = "..";
   String open = "/";
   String imagesPath = up + open;
-  String imagesUsed = "imagesUsed";
-  picBackground = loadImage(imagesPath + imagesUsed + "/halloween1.png");
+  String imagesUsed = "imagesUsed/";
+  picBackground = loadImage(imagesPath + imagesUsed + "halloween_pattern_background.jpg");
+  bikeForeground = loadImage ();
+  pumpkinGhostPortrait = loadImage ();
   //
   //DIVs
   //rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
+  rect(); //bike
+  rect(); //pumpkinGhost
   //
 } //End setup
 //
@@ -65,13 +69,15 @@ void draw() {
 
   //if ( nightmode==true ) tint(64, 64, 40); //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
   if (nightmode==true) {
-    tint(64, 64, 40); // more marks if numbers are varibles, (error check), ( // blue at should have a limit of 40
+    tint(64, 64, 40); // ( // blue at should have a limit of 40
     //println(nightmode);
   } else {
     noTint(); //See processing DOC
     //println(nightmode);
   }
   image (picBackground, backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
+  image(bikeForeground ); //bike 
+  image(pumpkinGhostPortrait); // pumpkinGhost
 } //End Draw
 //
 void keyPressed () {
