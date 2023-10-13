@@ -1,9 +1,11 @@
 /* Program Notes
- - extra marks for colour variables, make blue adjustable just like brightness 0 - 40 , (65% for numbers, more for variables)  
+ - extra marks for colour variables, make blue adjustable just like brightness 0 - 40 , (65% for numbers, more for variables)
  */
 //Global Variables
 int appWidth, appHeight;
 float backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight;
+float bikeX, bikeY, bikeWidth, bikeHeight;
+float pumpkinGhostX, pumpkinGhostY, pumpkinGhostWidth, pumpkinGhostHeight;
 PImage picBackground, bikeForeground, pumpkinGhostPortrait;
 Boolean nightmode=false; //Note: clock automatically will turn on
 Boolean BrightnessControl=false; // ARROWS
@@ -32,25 +34,43 @@ void setup() {
   backgroundImageY = appHeight*0;
   backgroundImageWidth = appWidth-1;
   backgroundImageHeight = appHeight-1;
+  //
+  bikeX = appWidth*1/14;
+  bikeY = appHeight*1/8;
+  bikeWidth = appWidth*2.4/7; //2/14
+  bikeHeight = appHeight*1/4;
+  //
+  pumpkinGhostX = bikeX;
+  pumpkinGhostY = appHeight*5/8;
+  pumpkinGhostWidth = bikeWidth;
+  pumpkinGhostHeight = bikeHeight ;
+    //Aspect Ratio Calculations
+    //Determine Aspect Ratio
+    //Compare dimension to get larger dimension
+    //Calculate Smaller Dimenion
+    //Rewrite variables based on rect() vars
   //concatenation of pathways
   String up = "..";
   String open = "/";
   String imagesPath = up + open;
   String imagesUsed = "imagesUsed/";
-  picBackground = loadImage(imagesPath + imagesUsed + "halloween_pattern_background.jpg");
-  bikeForeground = loadImage ();
-  pumpkinGhostPortrait = loadImage ();
+  String halloweenBackgroundImage = "halloween_pattern_background.jpg";
+  String bikeImage = "bike.jpg";
+  String pumpkinGhostImage = "halloween1.png";
+  picBackground = loadImage(imagesPath + imagesUsed + halloweenBackgroundImage);
+  bikeForeground = loadImage (imagesPath + imagesUsed + bikeImage);
+  pumpkinGhostPortrait = loadImage (imagesPath + imagesUsed + pumpkinGhostImage);
   //
   //DIVs
   //rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
-  rect(); //bike
-  rect(); //pumpkinGhost
+  rect(bikeX, bikeY, bikeWidth, bikeHeight); //bike
+  rect(pumpkinGhostX, pumpkinGhostY, pumpkinGhostWidth, pumpkinGhostHeight);
   //
 } //End setup
 //
 void draw() {
   //background(255); //built in bug, 1 pixel
-  rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
+  rect(bikeX, bikeY, bikeWidth, bikeHeight); //bike
   //
   if (BrightnessControl==true ) tint(255, BrightnessNumber);
   { //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
@@ -76,8 +96,8 @@ void draw() {
     //println(nightmode);
   }
   image (picBackground, backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
-  image(bikeForeground ); //bike 
-  image(pumpkinGhostPortrait); // pumpkinGhost
+  image(bikeForeground, bikeX, bikeY, bikeWidth, bikeHeight); //bike
+  image(pumpkinGhostPortrait, pumpkinGhostX, pumpkinGhostY, pumpkinGhostWidth, pumpkinGhostHeight); // pumpkinGhost
 } //End Draw
 //
 void keyPressed () {
