@@ -4,8 +4,10 @@
 //Global Variables
 int appWidth, appHeight;
 float backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight;
-float bikeX, bikeY, bikeWidth, bikeHeight;
-float pumpkinGhostX, pumpkinGhostY, pumpkinGhostWidth, pumpkinGhostHeight;
+float bikeXrect, bikeYrect, bikeWidthRect, bikeHeightRect;
+//float bikeX, bikeY, bikeWidth, bikeHeight;
+float pumpkinGhostXrect, pumpkinGhostYrect, pumpkinGhostWidthRect, pumpkinGhostHeightRect;
+//float pumpkinGhostX, pumpkinGhostY, pumpkinGhostWidth, pumpkinGhostHeight;
 PImage picBackground, bikeForeground, pumpkinGhostPortrait;
 Boolean nightmode=false; //Note: clock automatically will turn on
 Boolean BrightnessControl=false; // ARROWS
@@ -21,6 +23,10 @@ void setup() {
   appHeight = height;
   //
   //Population
+  //Original Aspect Ratios of Imagees to Change
+  //Compare the side Lengths to see which is bigger
+  //"Compress" the biggest side into the rect()
+  //Multiply the Image's Aspect Ratio to the smaller side
   int hourNightMode = hour(); //24 hour clock
   println (hourNightMode);
   if (hourNightMode>22) {
@@ -37,13 +43,13 @@ void setup() {
   //
   bikeXrect = appWidth*1/14;
   bikeYrect = appHeight*1/8;
-  bikeWidthRect = appWidth*2.4/7; //2/14
+  bikeWidthRect = appWidth*2.25/7; //2/14
   bikeHeightRect = appHeight*1/4;
   //
-  pumpkinGhostXrect = bikeX;
+  pumpkinGhostXrect = bikeXrect;
   pumpkinGhostYrect = appHeight*5/8;
-  pumpkinGhostWidthRect = bikeWidth;
-  pumpkinGhostHeightRect = bikeHeight;
+  pumpkinGhostWidthRect = bikeWidthRect;
+  pumpkinGhostHeightRect = bikeHeightRect;
   //Aspect Ratio Calculations
   //Determine Aspect Ratio
   //Compare dimension to get larger dimension
@@ -56,30 +62,57 @@ void setup() {
   bikeHeight = 529;//From Image File
   pumpkinGhostWidth = 500;//From Image File
   pumpkinGhostHeight = 510;//From Image File
+  //
   float aspectRatio = 0.0; //Local Variable
   float rectDimensionMemory = 0.0; //Assigned ZERO b/c IF'
-  if (bikeWidth > bikeHeight) { //Bike Image if Landscape
-  //Comparison Verification
-  aspectRatio = float(bikeHeight) / float(bikeWidth); // smaller / Larger if int
-  //memory of smaller side
-  bikeWidth = bikeWidthRect;
-  bikeHeight = aspectRatio * bikeWidth;
-  println("BIKE is Landscape");
-  } else { //Bike Image if Portrait
+  if (bikeWidth >= bikeHeight) { //Bike Image if Landscape
     //Comparison Verification
-  println("BIKE is Portrait");
+    //
+    aspectRatio = float(bikeHeight) / float(bikeWidth); // smaller / Larger if int
+    //memory of smaller side
+    bikeWidth = bikeWidthRect;
+    bikeHeight = aspectRatio * bikeWidth;
+    //if () {} //ERROR Catch is bikeHeight > bikeHeightRect
+    println("BIKE is Landscape");
+  } else { //Bike Image if Portrait
+    //
+    //
+    //
+    //Comparison Verification
+    println("BIKE is Portrait");
+    //
+    aspectRatio = float(bikeWidth) / float(bikeHeight); // smaller / Larger if int
+    //memory of smaller side
+    bikeHeight = bikeHeightRect;
+    bikeWidth = aspectRatio * bikeHeight;
+    //if () {} //ERROR Catch is bikeHeightRect > bikeHeight
   } //End IF
-  if (pumpkinGhostWidth > pumpkinGhostHeight) { //Pumpkin Image if Portrait
-     //Comparison Verification
-  println("PUMPKIN is Portrait");
+  //
+  //
+  //
+  if (pumpkinGhostWidth >= pumpkinGhostHeight) { //Pumpkin Image if Portrait
+    //Comparison Verification
+    //
+    println("PUMPKIN is Portrait");
+    aspectRatio = float(pumpkinGhostHeight) / float(pumpkinGhostWidth); // smaller/large=0 if int, use casting
+    pumpkinGhostWidth = pumpkinGhostWidthRect;
+    pumpkinGhostHeight = aspectRatio * pumpkinGhostWidth;
+    //if () {} //ERROR Catch is pumpkinGhostHeight > pumpkinGhostHeightRect
+    //
+    //
+    //
   } else { //Pumpkin Image if Landscape
-  println("PUMPKIN is Landscape");
+    println("PUMPKIN is Landscape");
+    aspectRatio = float(pumpkinGhostWidth) / float(pumpkinGhostHeight);
+    //memory of smaller side
+    pumpkinGhostHeight = pumpkinGhostHeightRect;
+    pumpkinGhostWidth = pumpkinGhostRatio * pumpkinGhostHeight;
+    if (pumpkinGhostWidth > pumpkinGhostWidthRect) { //ERROR Catch is pumpkinGhostHeightRect > pumpkinGhostHeight
+      println("ERROR: Aspect Calcualtion Too Big");
+    } 
   } //End IF
-
-  //Original Aspect Ratios of Imagees to Change
-  //Compare the side Lengths to see which is bigger
-  //"Compress" the biggest side into the rect()
-  //Multiply the Image's Aspect Ratio to the smaller side
+  //
+  //
   //
   //concatenation of pathways
   String up = "..";
@@ -95,8 +128,8 @@ void setup() {
   //
   //DIVs
   //rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
-  rect(bikeX, bikeY, bikeWidth, bikeHeight); //bike
-  rect(pumpkinGhostX, pumpkinGhostY, pumpkinGhostWidth, pumpkinGhostHeight);
+  //rect(bikeXrect, bikeYrect, bikeWidthRect, bikeHeightRect); //bike
+  //rect(pumpkinGhostXrect, pumpkinGhostYrect, pumpkinGhostWidthRect, pumpkinGhostHeightRect);
   //
 } //End setup
 //
@@ -127,6 +160,8 @@ void draw() {
     tint (BrightnessNumber, BrightnessNumber, BrightnessNumber, BrightnessNumber);
     //println(nightmode);
   }
+  //rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
+  //
   image (picBackground, backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
   image(bikeForeground, bikeXrect, bikeYrect, bikeWidth, bikeHeight); //bike
   image(pumpkinGhostPortrait, pumpkinGhostXrect, pumpkinGhostYrect, pumpkinGhostWidth, pumpkinGhostHeight); // pumpkinGhost
