@@ -4,8 +4,8 @@
 //Global Variables
 int appWidth, appHeight;
 float backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight;
-float bikeXrect, bikeYrect, bikeWidthRect, bikeHeightRect;
-float pumpkinGhostXrect, pumpkinGhostYrect, pumpkinGhostWidthRect, pumpkinGhostHeightRect;
+float bikeXrect, bikeYrect, bikeWidthRect, bikeHeightRect, bikeWidth, bikeHeight;
+float pumpkinGhostXrect, pumpkinGhostYrect, pumpkinGhostWidthRect, pumpkinGhostHeightRect, pumpkinGhostWidth, pumpkinGhostHeight;
 PImage picBackground, bikeForeground, pumpkinGhostPortrait;
 Boolean nightmode=false; //Note: clock automatically will turn on
 Boolean BrightnessControl=false; // ARROWS
@@ -41,8 +41,8 @@ void setup() {
   bikeWidthRect = appWidth*2.25/7; //2/14
   bikeHeightRect = appHeight*1/4;
   //
-  pumpkinGhostXrect = bikeXrect;
-  pumpkinGhostYrect = appHeight*5/8;
+  pumpkinGhostXrect = appWidth*1/2;
+  pumpkinGhostYrect = bikeYrect;
   pumpkinGhostWidthRect = bikeWidthRect;
   pumpkinGhostHeightRect = bikeHeightRect;
   //Aspect Ratio Calculations
@@ -53,35 +53,37 @@ void setup() {
   //Aspect Ratio Change
   //backgroundImageWidth = 980; //From Image File
   //backgroundImageHeight = 980;//From Image File
-  bikeWidth = 860;//From Image File
-  bikeHeight = 529;//From Image File
-  pumpkinGhostWidth = 500;//From Image File
-  pumpkinGhostHeight = 510;//From Image File
+  bikeWidth = 860.0;//From Image File
+  bikeHeight = 529.0;//From Image File
+  pumpkinGhostWidth = 980.0;//From Image File
+  pumpkinGhostHeight = 980.0;//From Image File
   float aspectRatio = 0.0; //Local Variable
-  float rectDimensionMemory = 0.0; //Assigned ZERO b/c IF'
+  //float rectDimensionMemory = 0.0; //Assigned ZERO b/c IF' //???
   if (bikeWidth >= bikeHeight) { //Bike Image if Landscape
     //Comparison Verification
     //
     println("BIKE is Landscape");
-    aspectRatio = float (bikeHeight) / float(bikeWidth); // smaller / Larger if int
+    aspectRatio = bikeHeight / bikeWidth;; // smaller / Larger if int
     //memory of smaller side
     bikeWidth = bikeWidthRect;
     bikeHeight = aspectRatio * bikeWidth;
     if ( bikeHeight > bikeHeightRect ) {
       println("ERROR: Aspect Calcualtion Too Big");
-    //
-    //
-    //
+      //
+      //
+      //
+    }
   } else { //Bike Image if Portrait
     //Comparison Verification
     println("BIKE is Portrait");
     //
-    aspectRatio = float (bikeWidth) / float (bikeHeight); // smaller / Larger if int
+    aspectRatio = bikeWidth / bikeHeight; // smaller / Larger if int
     //memory of smaller side
     bikeHeight = bikeHeightRect;
     bikeWidth = aspectRatio * bikeHeight;
     if ( bikeWidth > bikeWidthRect ) {
       println("ERROR: Aspect Calcualtion Too Big");
+    }
     } //End IF
     //
     //
@@ -90,7 +92,7 @@ void setup() {
       //Comparison Verification
       //
       println("PUMPKIN is Portrait");
-      aspectRatio = float (pumpkinGhostHeight) / float(pumpkinGhostWidth); // smaller/large=0 if int, use casting
+      aspectRatio = pumpkinGhostHeight / pumpkinGhostWidth; // smaller/large=0 if int, use casting
       pumpkinGhostWidth = pumpkinGhostWidthRect;
       pumpkinGhostHeight = aspectRatio * pumpkinGhostWidth;
       if (pumpkinGhostWidth > pumpkinGhostWidthRect) { //ERROR Catch is pumpkinGhostHeightRect > pumpkinGhostHeight
@@ -98,93 +100,94 @@ void setup() {
         //
         //
         //
-      } else { //Pumpkin Image if Landscape
-        println("PUMPKIN is Landscape");
-        aspectRatio = float (pumpkinGhostWidth) / float (pumpkinGhostHeight);
-        //memory of smaller side
-        pumpkinGhostHeight = pumpkinGhostHeightRect;
-        pumpkinGhostWidth = pumpkinGhostRatio * pumpkinGhostHeight;
-        if (pumpkinGhostWidth > pumpkinGhostWidthRect) { //ERROR Catch is pumpkinGhostHeightRect > pumpkinGhostHeight
-          println("ERROR: Aspect Calcualtion Too Big");
-        }
-      } //End IF
-      //
-      //
-      //
-      //concatenation of pathways
-      String up = "..";
-      String open = "/";
-      String imagesPath = up + open;
-      String imagesUsed = "imagesUsed/";
-      String halloweenBackgroundImage = "halloween_pattern_background.jpg";
-      String bikeImage = "bike.jpg";
-      String pumpkinGhostImage = "halloween1.png";
-      picBackground = loadImage(imagesPath + imagesUsed + halloweenBackgroundImage);
-      bikeForeground = loadImage (imagesPath + imagesUsed + bikeImage);
-      pumpkinGhostPortrait = loadImage (imagesPath + imagesUsed + pumpkinGhostImage);
-      //
-      //DIVs
-      //rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
-      //rect(bikeXrect, bikeYrect, bikeWidthRect, bikeHeightRect); //bike
-      //rect(pumpkinGhostXrect, pumpkinGhostYrect, pumpkinGhostWidthRect, pumpkinGhostHeightRect);
-      //
-    } //End setup
-    //
-    void draw() {
-      //background(255); //built in bug, 1 pixel
-      rect(bikeX, bikeY, bikeWidth, bikeHeight); //bike
-      //
-      if (BrightnessControl==true ) tint(255, BrightnessNumber);
-      { //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
-        if ( BrightnessNumber<1  ) {
-          BrightnessNumber=1;
-        } else if (BrightnessNumber>255) {
-          BrightnessNumber=255;
-        } else {
-          //Empty Else
-        }
-        tint (255, BrightnessNumber);
-        println(BrightnessNumber);
       }
-
-
-
-      //if ( nightmode==true ) tint(64, 64, 40); //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
-      if (nightmode==true) {
-        tint(64, 64, 40, BrightnessNumber); // ( // blue at should have a limit of 40
-        //println(nightmode);
+    } else { //Pumpkin Image if Landscape
+      println("PUMPKIN is Landscape");
+      aspectRatio = pumpkinGhostWidth / pumpkinGhostHeight;
+      //memory of smaller side
+      pumpkinGhostHeight = pumpkinGhostHeightRect;
+      pumpkinGhostWidth = aspectRatio* pumpkinGhostHeight;
+      if (pumpkinGhostWidth > pumpkinGhostWidthRect) { //ERROR Catch is pumpkinGhostHeightRect > pumpkinGhostHeight
+        println("ERROR: Aspect Calcualtion Too Big");
+      }
+    } //End IF
+    //
+    //
+    //
+    //concatenation of pathways
+    String up = "..";
+    String open = "/";
+    String imagesPath = up + open;
+    String imagesUsed = "imagesUsed/";
+    String halloweenBackgroundImage = "halloween_pattern_background.jpg";
+    String bikeImage = "bike.jpg";
+    String pumpkinGhostImage = "halloween1.png";
+    picBackground = loadImage(imagesPath + imagesUsed + halloweenBackgroundImage);
+    bikeForeground = loadImage (imagesPath + imagesUsed + bikeImage);
+    pumpkinGhostPortrait = loadImage (imagesPath + imagesUsed + pumpkinGhostImage);
+    //
+    //DIVs
+    //rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
+    //rect(bikeXrect, bikeYrect, bikeWidthRect, bikeHeightRect); //bike
+    //rect(pumpkinGhostXrect, pumpkinGhostYrect, pumpkinGhostWidthRect, pumpkinGhostHeightRect);
+    //
+  } //End setup
+  //
+  void draw() {
+    //background(255); //built in bug, 1 pixel
+    rect(bikeXrect, bikeYrect, bikeWidthRect, bikeHeightRect); //bike
+    //
+    if (BrightnessControl==true ) tint(255, BrightnessNumber);
+    { //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
+      if ( BrightnessNumber<1  ) {
+        BrightnessNumber=1;
+      } else if (BrightnessNumber>255) {
+        BrightnessNumber=255;
       } else {
-        tint (BrightnessNumber, BrightnessNumber, BrightnessNumber, BrightnessNumber);
-        //println(nightmode);
+        //Empty Else
       }
-      //rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
-      //
-      image (picBackground, backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
-      image(bikeForeground, bikeXrect, bikeYrect, bikeWidth, bikeHeight); //bike
-      image(pumpkinGhostPortrait, pumpkinGhostXrect, pumpkinGhostYrect, pumpkinGhostWidth, pumpkinGhostHeight); // pumpkinGhost
-    } //End Draw
+      tint (255, BrightnessNumber);
+      println(BrightnessNumber);
+    }
+
+
+
+    //if ( nightmode==true ) tint(64, 64, 40); //Grey Scale: 1/2 tint (i.e. 128/226=1/2)
+    if (nightmode==true) {
+      tint(64, 64, 40, BrightnessNumber); // ( // blue at should have a limit of 40
+      //println(nightmode);
+    } else {
+      tint (BrightnessNumber, BrightnessNumber, BrightnessNumber, BrightnessNumber);
+      //println(nightmode);
+    }
+    //rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
     //
-    void keyPressed () {
-      if (key == 'n' || key=='N' ) {
-        if (nightmode==true) {  //Nightmode, basic control is Boolean
-          nightmode = false;
-        } else {
-          nightmode = true;
-        }
+    image (picBackground, backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
+    image(bikeForeground, bikeXrect, bikeYrect, bikeWidth, bikeHeight); //bike
+    image(pumpkinGhostPortrait, pumpkinGhostXrect, pumpkinGhostYrect, pumpkinGhostWidth, pumpkinGhostHeight); // pumpkinGhost
+  } //End Draw
+  //
+  void keyPressed () {
+    if (key == 'n' || key=='N' ) {
+      if (nightmode==true) {  //Nightmode, basic control is Boolean
+        nightmode = false;
+      } else {
+        nightmode = true;
       }
-      //Brightness: ARROWS activate BrightnessControl, Never off
-      //Note: nightmode does turn off
-      if (key == CODED && keyCode == UP || keyCode == DOWN ) { //Brightness keybind
-        BrightnessControl = true;
-        if (key == CODED && keyCode == UP) BrightnessNumber++;
-        if (key == CODED && keyCode == DOWN) BrightnessNumber-- ;
-        // start here with brightness toggles
-      }
-      //
-      //println(BrightnessNumber);
-    } //End keyPressed
+    }
+    //Brightness: ARROWS activate BrightnessControl, Never off
+    //Note: nightmode does turn off
+    if (key == CODED && keyCode == UP || keyCode == DOWN ) { //Brightness keybind
+      BrightnessControl = true;
+      if (key == CODED && keyCode == UP) BrightnessNumber++;
+      if (key == CODED && keyCode == DOWN) BrightnessNumber-- ;
+      // start here with brightness toggles
+    }
     //
-    void mousePressed() {
-    } // End mousePressed
-    //
-    //MAIN Program
+    //println(BrightnessNumber);
+  } //End keyPressed
+  //
+  void mousePressed() {
+  } // End mousePressed
+  //
+  //MAIN Program
